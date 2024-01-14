@@ -1,5 +1,5 @@
 import styles from './login.module.css'
-import LoginForm from '@/ui/loginForm/LoginForm'
+import LoginForm from '@/components/loginForm/LoginForm'
 // import { handleGithubLogin } from '@/lib/action'
 // import { auth } from '@/lib/auth'
 // import { useRouter } from 'next/navigation'

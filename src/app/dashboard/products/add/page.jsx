@@ -1,7 +1,7 @@
 // 1:19:00
 
 import { addProduct } from '@/app/lib/actions'
-import styles from '@/app/ui/dashboard/products/addProduct/addProduct.module.css'
+import styles from '@/app/components/dashboard/products/addProduct/addProduct.module.css'
 
 const AddProductPage = () => {
   return (

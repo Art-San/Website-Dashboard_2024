@@ -1,34 +1,20 @@
 // import { deleteUser } from '@/app/lib/actions'
 import { deleteUser } from '@/lib/actions/actionsUsers'
 import { fetchUsers } from '@/lib/data'
-import Pagination from '@/ui/dashboard/pagination/Pagination'
-import Search from '@/ui/dashboard/search/Search'
+import Pagination from '@/components/dashboard/pagination/Pagination'
+import Search from '@/components/dashboard/search/Search'
 
-import styles from '@/ui/dashboard/users/users.module.css'
+import styles from '@/components/dashboard/users/users.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
-
-const chel = [
-  {
-    id: '6589195eacda7ae58638ecb9',
-    username: 'Пирожок',
-    email: 'jonh@mail.com',
-    password: '123456',
-    img: 'https://avatarzo.ru/wp-content/uploads/medved-flag-rossii.jpg',
-    isAdmin: false,
-    isActive: true,
-    createdAt: Number('2023-11-25T09:34:23.419Z')
-  }
-]
 
 const UsersPage = async ({ searchParams }) => {
   const q = searchParams?.q || ''
   const page = searchParams?.page || 1
   const { count, users } = await fetchUsers(q, page)
-  // const { count, users } = (await fetchUsers(q, page)) || chel
 
-  console.log('count', count)
-  console.log('users', users)
+  // console.log('count', count)
+  // console.log('users', users)
 
   return (
     <div className={styles.container}>
@@ -94,11 +80,11 @@ const UsersPage = async ({ searchParams }) => {
 
 export default UsersPage
 
-// import styles from '@/app/ui/dashboard/users/users.module.css'
-// import Search from '@/app/ui/dashboard/search/Search'
+// import styles from '@/app/components/dashboard/users/users.module.css'
+// import Search from '@/app/components/dashboard/search/Search'
 // import Link from 'next/link'
 // import Image from 'next/image'
-// import Pagination from '@/app/ui/dashboard/pagination/Pagination'
+// import Pagination from '@/app/components/dashboard/pagination/Pagination'
 // import { fetchUsers } from '../../lib/data.js'
 
 // const UsersPage = async () => {

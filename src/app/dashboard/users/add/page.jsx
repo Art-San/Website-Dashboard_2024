@@ -1,7 +1,7 @@
 // 1:19:00
 
 import { addUser } from '@/app/lib/actions'
-import styles from '@/app/ui/dashboard/users/addUser/addUser.module.css'
+import styles from '@/app/components/dashboard/users/addUser/addUser.module.css'
 
 const AddUserPage = () => {
   return (

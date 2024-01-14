@@ -1,39 +1,46 @@
 // 1:29ж42
 
-import { updateUser } from '@/app/lib/actions'
-import { fetchUser } from '@/app/lib/data'
-import styles from '@/app/ui/dashboard/users/singleUser/singleUser.module.css'
+// import { updateUser } from '@/lib/actions'
+import { fetchUserAcc } from '@/lib/data'
+import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
 
 const SingleUserPage = async ({ params }) => {
   const { id } = params
-  const user = await fetchUser(id)
-  // 2:49:20
-  // console.log('id', user.email)
+  const { user, acc } = await fetchUserAcc(id)
+
+  // console.log('SingleUserPage user', user)
+  // console.log('SingleUserPage acc', acc.phone)
   return (
     <>
       <div className={styles.container}>
         <div className={styles.infoContainer}>
           <div className={styles.imgContainer}>
-            <Image src={user.img || '/noAvatar.png'} alt="" fill />
+            <Image src={acc.img || '/noAvatar.png'} alt="" fill />
           </div>
           {user.username}
         </div>
         <div className={styles.formContainer}>
-          <form action={updateUser} className={styles.form}>
-            <input type="hidden" name="id" value={user.id} />
+          <form className={styles.form}>
+            {/* <form action={updateAcc} className={styles.form}> */}
+            <input type="hidden" name="id" value={acc.id} />
             <label>Username</label>
-            <input type="text" name="username" placeholder={user.username} />
+            <input type="text" name="username" placeholder={acc.username} />
+            <label>Surname</label>
+            <input type="text" name="surname" placeholder={acc.surname} />
+            <label>Image</label>
+            <input type="img" name="img" placeholder="ссылка на изображение" />
+            <label>Phone</label>
+            <input type="text" name="phone" placeholder={acc.phone} />
+            <button>Update</button>
+          </form>
+          <form className={styles.form}>
+            {/* <form action={updateUser} className={styles.form}> */}
+            <input type="hidden" name="id" value={user.id} />
             <label>Email</label>
             <input type="email" name="email" placeholder={user.email} />
             <label>Password</label>
             <input type="password" name="password" />
-            <label>Image</label>
-            <input type="img" placeholder="ссылка на изображение" name="img" />
-            <label>Phone</label>
-            <input type="text" name="phone" placeholder={user.phone} />
-            <label>Address</label>
-            <textarea name="address" placeholder={user.address} />
             <label>Is Admin?</label>
             <select name="isAdmin" id="isAdmin">
               <option value={true} selected={user.isAdmin}>
@@ -56,6 +63,7 @@ const SingleUserPage = async ({ params }) => {
           </form>
         </div>
       </div>
+
       {/*1:35:00*/}
       {/* <div className=" flex gap-[50px] mt-5">
         <div className=" basis-[25%] bg-bgSoft p-5 rounded-[10px] font-bold text-textSoft h-max">
@@ -99,91 +107,3 @@ const SingleUserPage = async ({ params }) => {
 }
 
 export default SingleUserPage
-
-// import { FC, useEffect, useState } from 'react'
-// import { updateUser } from '@/app/lib/actions'
-// import { fetchUser, User } from '@/app/lib/data'
-// import styles from '@/app/ui/dashboard/users/singleUser/singleUser.module.css'
-// import Image from 'next/image'
-
-// interface SingleUserPageProps {
-//   params: {
-//     id: string
-//   }
-// }
-
-// const SingleUserPage: FC<SingleUserPageProps> = ({ params }) => {
-//   const [user, setUser] = useState<User | null>(null)
-
-//   useEffect(() => {
-//     const fetchUserData = async () => {
-//       const userData = await fetchUser(params.id)
-//       setUser(userData)
-//     }
-
-//     fetchUserData()
-//   }, [params.id])
-
-//   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault()
-//     const formData = new FormData(event.currentTarget)
-//     // Process the form data or call the updateUser function with formData
-//     updateUser(formData)
-//   }
-
-//   return (
-//     <div className={styles.container}>
-//       {user && (
-//         <div className={styles.infoContainer}>
-//           <div className={styles.imgContainer}>
-//             <Image
-//               src={user.img || '/noavatar.png'}
-//               alt=""
-//               width={100}
-//               height={100}
-//             />
-//           </div>
-//           {user.username}
-//         </div>
-//       )}
-//       <div className={styles.formContainer}>
-//         {user && (
-//           <form onSubmit={handleFormSubmit} className={styles.form}>
-//             <input type="hidden" name="id" value={user.id} />
-//             <label>Username</label>
-//             <input type="text" name="username" defaultValue={user.username} />
-//             <label>Email</label>
-//             <input type="email" name="email" defaultValue={user.email} />
-//             <label>Password</label>
-//             <input type="password" name="password" />
-//             <label>Phone</label>
-//             <input type="text" name="phone" defaultValue={user.phone} />
-//             <label>Address</label>
-//             <textarea name="address" defaultValue={user.address} />
-//             <label>Is Admin?</label>
-//             <select
-//               name="isAdmin"
-//               id="isAdmin"
-//               defaultValue={String(user.isAdmin)}
-//             >
-//               <option value="true">Yes</option>
-//               <option value="false">No</option>
-//             </select>
-//             <label>Is Active?</label>
-//             <select
-//               name="isActive"
-//               id="isActive"
-//               defaultValue={String(user.isActive)}
-//             >
-//               <option value="true">Yes</option>
-//               <option value="false">No</option>
-//             </select>
-//             <button type="submit">Update</button>
-//           </form>
-//         )}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default SingleUserPage

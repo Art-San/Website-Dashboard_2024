@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import styles from '@/app/ui/dashboard/products/singleProduct/singleProduct.module.css'
+import styles from '@/app/components/dashboard/products/singleProduct/singleProduct.module.css'
 import { updateProduct } from '@/app/lib/actions'
 import { fetchProduct } from '@/app/lib/data'
 

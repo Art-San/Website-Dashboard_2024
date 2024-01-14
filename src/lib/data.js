@@ -1,18 +1,6 @@
-import { User } from './models/user'
+import { Account, User } from './models/user'
 import { connectToDB } from './utils.js'
 
-// export const fetchUsers = async () => {
-//   try {
-//     connectToDB()
-
-//     const users = await User.find()
-
-//     return users
-//   } catch (err) {
-//     console.log(err)
-//     throw new Error('Failed to fetch users!')
-//   }
-// }
 export const fetchUsers = async (q, page) => {
   const regex = new RegExp(q, 'i') // не чувствительно к регистру
 
@@ -20,8 +8,8 @@ export const fetchUsers = async (q, page) => {
 
   try {
     connectToDB()
-    const count = await User.find({ username: { $regex: regex } }).count()
-    const users = await User.find({ username: { $regex: regex } })
+    const count = await User.find({ email: { $regex: regex } }).count()
+    const users = await User.find({ email: { $regex: regex } })
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1))
     return { users, count }
@@ -31,11 +19,12 @@ export const fetchUsers = async (q, page) => {
   }
 }
 
-export const fetchUser = async (id) => {
+export const fetchUserAcc = async (id) => {
   try {
     connectToDB()
     const user = await User.findById(id)
-    return user
+    const acc = await Account.findOne({ userId: id })
+    return { user, acc }
   } catch (err) {
     console.log(err)
     throw new Error('Failed to fetch user!')

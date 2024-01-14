@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import styles from '@/app/ui/dashboard/products/products.module.css'
-import Pagination from '@/app/ui/dashboard/pagination/Pagination'
-import Search from '@/app/ui/dashboard/search/Search'
+import styles from '@/app/components/dashboard/products/products.module.css'
+import Pagination from '@/app/components/dashboard/pagination/Pagination'
+import Search from '@/app/components/dashboard/search/Search'
 import { fetchProducts } from '@/app/lib/data'
 import { deleteProduct } from '@/app/lib/actions'
 
