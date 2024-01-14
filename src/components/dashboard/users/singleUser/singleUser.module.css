@@ -24,10 +24,12 @@
 }
 
 .formContainer {
-  flex: 3;
+  display: flex;
+  flex: 2;
   background-color: var(--bgSoft);
   padding: 20px;
   border-radius: 10px;
+  gap: 40px;
 }
 
 .form {

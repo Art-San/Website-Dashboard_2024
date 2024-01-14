@@ -58,7 +58,7 @@ export const register = async (prevState, formData) => {
 export const login = async (prevState, formData) => {
   const { email, password } = Object.fromEntries(formData)
 
-  console.log('email, password', email, password)
+  console.log('login  email, password', email, password)
 
   try {
     await signIn('credentials', { email, password })
@@ -87,50 +87,25 @@ export const deleteUser = async (formData) => {
   revalidatePath('/dashboard/users')
 }
 
-export const updateUser = async (formData) => {
-  const {
-    id,
-    username,
-    email,
-    password,
-    img,
-    phone,
-    address,
-    isAdmin,
-    isActive
-  } = Object.fromEntries(formData)
-
-  const noSpaces = password.trim()
-  console.log('noSpaces', noSpaces)
-  const hashedPassword = async (noSpaces) => {
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(noSpaces, salt)
-    return hashedPassword
-  }
+export const updateAcc = async (formData) => {
+  const { id, username, surname, img, phone } = Object.fromEntries(formData)
 
   try {
     connectToDB()
 
-    const oneOf =
-      noSpaces === '' || undefined ? noSpaces : await hashedPassword(noSpaces)
-
     const updateFields = {
       username,
-      email,
-      password: oneOf,
+      surname,
       img,
-      phone,
-      address,
-      isAdmin,
-      isActive
+      phone
     }
-
+    console.log('updateAcc updateFields', updateFields, id)
     Object.keys(updateFields).forEach(
       (key) =>
         (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
     )
 
-    await User.findByIdAndUpdate(id, updateFields)
+    await Account.findByIdAndUpdate(id, updateFields)
     console.log('saved to db')
   } catch (err) {
     console.log('actions updateUser', err)
@@ -140,6 +115,59 @@ export const updateUser = async (formData) => {
   revalidatePath('/dashboard/users')
   redirect('/dashboard/users')
 }
+// export const updateUser = async (formData) => {
+//   const {
+//     id,
+//     username,
+//     email,
+//     password,
+//     img,
+//     phone,
+//     address,
+//     isAdmin,
+//     isActive
+//   } = Object.fromEntries(formData)
+
+//   const noSpaces = password.trim()
+//   console.log('noSpaces', noSpaces)
+//   const hashedPassword = async (noSpaces) => {
+//     const salt = await bcrypt.genSalt(10)
+//     const hashedPassword = await bcrypt.hash(noSpaces, salt)
+//     return hashedPassword
+//   }
+
+//   try {
+//     connectToDB()
+
+//     const oneOf =
+//       noSpaces === '' || undefined ? noSpaces : await hashedPassword(noSpaces)
+
+//     const updateFields = {
+//       username,
+//       email,
+//       password: oneOf,
+//       img,
+//       phone,
+//       address,
+//       isAdmin,
+//       isActive
+//     }
+
+//     Object.keys(updateFields).forEach(
+//       (key) =>
+//         (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
+//     )
+
+//     await User.findByIdAndUpdate(id, updateFields)
+//     console.log('saved to db')
+//   } catch (err) {
+//     console.log('actions updateUser', err)
+//     throw new Error('Не удалось обновить пользователя!')
+//   }
+
+//   revalidatePath('/dashboard/users')
+//   redirect('/dashboard/users')
+// }
 
 // export const addUser = async (formData) => {
 //   // 'use server'

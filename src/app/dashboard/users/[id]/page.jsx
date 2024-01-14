@@ -4,13 +4,14 @@
 import { fetchUserAcc } from '@/lib/data'
 import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
+import { updateAcc } from '@/lib/actions/actionsUsers'
 
 const SingleUserPage = async ({ params }) => {
   const { id } = params
   const { user, acc } = await fetchUserAcc(id)
 
   // console.log('SingleUserPage user', user)
-  // console.log('SingleUserPage acc', acc.phone)
+  console.log('SingleUserPage acc', acc)
   return (
     <>
       <div className={styles.container}>
@@ -21,8 +22,8 @@ const SingleUserPage = async ({ params }) => {
           {user.username}
         </div>
         <div className={styles.formContainer}>
-          <form className={styles.form}>
-            {/* <form action={updateAcc} className={styles.form}> */}
+          {/* <form className={styles.form}> */}
+          <form action={updateAcc} className={styles.form}>
             <input type="hidden" name="id" value={acc.id} />
             <label>Username</label>
             <input type="text" name="username" placeholder={acc.username} />
@@ -43,19 +44,19 @@ const SingleUserPage = async ({ params }) => {
             <input type="password" name="password" />
             <label>Is Admin?</label>
             <select name="isAdmin" id="isAdmin">
-              <option value={true} selected={user.isAdmin}>
+              <option value={true} defaultValue={user.isAdmin}>
                 Yes
               </option>
-              <option value={false} selected={!user.isAdmin}>
+              <option value={false} defaultValue={!user.isAdmin}>
                 No
               </option>
             </select>
             <label>Is Active?</label>
             <select name="isActive" id="isActive">
-              <option value={true} selected={user.isActive}>
+              <option value={true} defaultValue={user.isActive}>
                 Yes
               </option>
-              <option value={false} selected={!user.isActive}>
+              <option value={false} defaultValue={!user.isActive}>
                 No
               </option>
             </select>
