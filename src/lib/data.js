@@ -1,4 +1,4 @@
-import { Account, User } from './models/user'
+import { User } from './models/user'
 import { connectToDB } from './utils.js'
 
 export const fetchUsers = async (q, page) => {
@@ -23,8 +23,8 @@ export const fetchUserAcc = async (id) => {
   try {
     connectToDB()
     const user = await User.findById(id)
-    const acc = await Account.findOne({ userId: id })
-    return { user, acc }
+
+    return user
   } catch (err) {
     console.log(err)
     throw new Error('Failed to fetch user!')

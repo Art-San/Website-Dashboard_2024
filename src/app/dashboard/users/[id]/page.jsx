@@ -4,14 +4,14 @@
 import { fetchUserAcc } from '@/lib/data'
 import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
-import { updateAcc, updateUser } from '@/lib/actions/actionsUsers'
+import { updateUser } from '@/lib/actions/actionsUsers'
 
 const SingleUserPage = async ({ params }) => {
   const { id } = params
-  const { user, acc } = await fetchUserAcc(id)
+  const user = await fetchUserAcc(id)
 
-  console.log('SingleUserPage user', user)
-  console.log('SingleUserPage acc', acc)
+  console.log('SingleUserPage user.address', user)
+
   return (
     <>
       <div className={styles.container}>
@@ -19,7 +19,7 @@ const SingleUserPage = async ({ params }) => {
           <div className={styles.imgContainer}>
             <Image src={user.img || '/noAvatar.png'} alt="" fill />
           </div>
-          {acc?.username || 'No name'}
+          {user?.username || 'No name'}
         </div>
         <div className={styles.formContainer}>
           <form action={updateUser} className={styles.form}>
@@ -30,6 +30,8 @@ const SingleUserPage = async ({ params }) => {
               name="username"
               placeholder={user?.username || 'Имя'}
             />
+            <label>phone</label>
+            <input type="text" name="addressPhone" placeholder={'77777777'} />
             <label>Email</label>
             <input type="email" name="email" placeholder={user.email} />
             <label>Password</label>
@@ -48,28 +50,20 @@ const SingleUserPage = async ({ params }) => {
             </select>
             <button>Update</button>
           </form>
-          <form action={updateAcc} className={styles.form}>
-            <input type="hidden" name="id" value={acc.id} />
+          {/* <form className={styles.form}>
+            <input type="hidden" name="id" />
             <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder={acc?.username || 'Имя'}
-            />
+            <input type="text" name="username" placeholder={'Имя'} />
             <label>Surname</label>
-            <input
-              type="text"
-              name="surname"
-              placeholder={acc?.surname || 'Фамилия'}
-            />
+            <input type="text" name="surname" placeholder={'Фамилия'} />
             <label>Phone</label>
             <input
               type="text"
               name="phone"
-              placeholder={acc?.phone || '+7-(777)-777-77-77'}
+              placeholder={'+7-(777)-777-77-77'}
             />
             <button>Update</button>
-          </form>
+          </form> */}
         </div>
       </div>
 
