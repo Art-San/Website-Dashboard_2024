@@ -78,6 +78,7 @@ export const deleteUser = async (formData) => {
 
   try {
     connectToDB()
+    await Account.deleteOne({ userId: id })
     await User.findByIdAndDelete(id)
   } catch (err) {
     console.log(err)
@@ -88,7 +89,7 @@ export const deleteUser = async (formData) => {
 }
 
 export const updateAcc = async (formData) => {
-  const { id, username, surname, img, phone } = Object.fromEntries(formData)
+  const { id, username, surname, phone } = Object.fromEntries(formData)
 
   try {
     connectToDB()
@@ -96,10 +97,9 @@ export const updateAcc = async (formData) => {
     const updateFields = {
       username,
       surname,
-      img,
       phone
     }
-    console.log('updateAcc updateFields', updateFields, id)
+    // console.log('updateAcc updateFields', updateFields, id)
     Object.keys(updateFields).forEach(
       (key) =>
         (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
@@ -115,59 +115,49 @@ export const updateAcc = async (formData) => {
   revalidatePath('/dashboard/users')
   redirect('/dashboard/users')
 }
-// export const updateUser = async (formData) => {
-//   const {
-//     id,
-//     username,
-//     email,
-//     password,
-//     img,
-//     phone,
-//     address,
-//     isAdmin,
-//     isActive
-//   } = Object.fromEntries(formData)
 
-//   const noSpaces = password.trim()
-//   console.log('noSpaces', noSpaces)
-//   const hashedPassword = async (noSpaces) => {
-//     const salt = await bcrypt.genSalt(10)
-//     const hashedPassword = await bcrypt.hash(noSpaces, salt)
-//     return hashedPassword
-//   }
+export const updateUser = async (formData) => {
+  const { id, username, email, password, img, isAdmin, isActive } =
+    Object.fromEntries(formData)
 
-//   try {
-//     connectToDB()
+  const noSpaces = password.trim()
+  // console.log('noSpaces', noSpaces)
+  const hashedPassword = async (noSpaces) => {
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(noSpaces, salt)
+    return hashedPassword
+  }
 
-//     const oneOf =
-//       noSpaces === '' || undefined ? noSpaces : await hashedPassword(noSpaces)
+  try {
+    connectToDB()
 
-//     const updateFields = {
-//       username,
-//       email,
-//       password: oneOf,
-//       img,
-//       phone,
-//       address,
-//       isAdmin,
-//       isActive
-//     }
+    const oneOf =
+      noSpaces === '' || undefined ? noSpaces : await hashedPassword(noSpaces)
 
-//     Object.keys(updateFields).forEach(
-//       (key) =>
-//         (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
-//     )
+    const updateFields = {
+      email,
+      username,
+      password: oneOf,
+      img,
+      isAdmin,
+      isActive
+    }
 
-//     await User.findByIdAndUpdate(id, updateFields)
-//     console.log('saved to db')
-//   } catch (err) {
-//     console.log('actions updateUser', err)
-//     throw new Error('Не удалось обновить пользователя!')
-//   }
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
+    )
 
-//   revalidatePath('/dashboard/users')
-//   redirect('/dashboard/users')
-// }
+    await User.findByIdAndUpdate(id, updateFields)
+    console.log('saved to db')
+  } catch (err) {
+    console.log('actions updateUser', err)
+    throw new Error('Не удалось обновить пользователя!')
+  }
+
+  revalidatePath('/dashboard/users')
+  redirect('/dashboard/users')
+}
 
 // export const addUser = async (formData) => {
 //   // 'use server'

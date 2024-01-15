@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      default: ''
+    },
     email: {
       type: String,
       required: true,
@@ -10,6 +14,10 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String
+    },
+    img: {
+      type: String,
+      default: '/noAvatar.png'
     },
     cameFrom: {
       type: String,
@@ -26,6 +34,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
+
 // const visitSchema = new mongoose.Schema(
 //   {
 //     userId: {
@@ -48,38 +57,27 @@ const accountSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    img: {
-      type: String,
-      default: '/noAvatar.png'
-    },
-    username: {
-      type: String,
-      default: 'Иван'
-    },
-
-    surname: {
-      type: String,
-      default: 'Иванов'
-    },
-
-    // age: {
-    //   type: Number
-    // },
     phone: {
       type: String,
-      default: '+7-(777)-777-77-77'
-    }
-    // country: {
-    //   type: String,
+      default: ''
+    },
+    country: {
+      type: String,
+      default: ''
+    },
 
-    // },
-    // address: {
-    //   type: String
-    // },
-    // sex: {
-    //   type: String,
-    //   enum: ['male', 'female', 'other']
-    // }
+    city: {
+      type: String,
+      default: ''
+    },
+    street: {
+      type: String,
+      default: ''
+    },
+    number: {
+      type: String,
+      default: ''
+    }
   },
   { timestamps: true }
 )

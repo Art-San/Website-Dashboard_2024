@@ -4,62 +4,70 @@
 import { fetchUserAcc } from '@/lib/data'
 import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
-import { updateAcc } from '@/lib/actions/actionsUsers'
+import { updateAcc, updateUser } from '@/lib/actions/actionsUsers'
 
 const SingleUserPage = async ({ params }) => {
   const { id } = params
   const { user, acc } = await fetchUserAcc(id)
 
-  // console.log('SingleUserPage user', user)
+  console.log('SingleUserPage user', user)
   console.log('SingleUserPage acc', acc)
   return (
     <>
       <div className={styles.container}>
         <div className={styles.infoContainer}>
           <div className={styles.imgContainer}>
-            <Image src={acc.img || '/noAvatar.png'} alt="" fill />
+            <Image src={user.img || '/noAvatar.png'} alt="" fill />
           </div>
-          {user.username}
+          {acc?.username || 'No name'}
         </div>
         <div className={styles.formContainer}>
-          {/* <form className={styles.form}> */}
-          <form action={updateAcc} className={styles.form}>
-            <input type="hidden" name="id" value={acc.id} />
-            <label>Username</label>
-            <input type="text" name="username" placeholder={acc.username} />
-            <label>Surname</label>
-            <input type="text" name="surname" placeholder={acc.surname} />
-            <label>Image</label>
-            <input type="img" name="img" placeholder="ссылка на изображение" />
-            <label>Phone</label>
-            <input type="text" name="phone" placeholder={acc.phone} />
-            <button>Update</button>
-          </form>
-          <form className={styles.form}>
-            {/* <form action={updateUser} className={styles.form}> */}
+          <form action={updateUser} className={styles.form}>
             <input type="hidden" name="id" value={user.id} />
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder={user?.username || 'Имя'}
+            />
             <label>Email</label>
             <input type="email" name="email" placeholder={user.email} />
             <label>Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" placeholder="******" />
+            <label>Image</label>
+            <input type="img" name="img" placeholder="ссылка на изображение" />
             <label>Is Admin?</label>
-            <select name="isAdmin" id="isAdmin">
-              <option value={true} defaultValue={user.isAdmin}>
-                Yes
-              </option>
-              <option value={false} defaultValue={!user.isAdmin}>
-                No
-              </option>
+            <select name="isAdmin" id="isAdmin" defaultValue={user.isAdmin}>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
             </select>
             <label>Is Active?</label>
-            <select name="isActive" id="isActive">
-              <option value={true} defaultValue={user.isActive}>
-                Yes
-              </option>
-              <option value={false} defaultValue={!user.isActive}>
-                No
-              </option>
+            <select name="isActive" id="isActive" defaultValue={user.isActive}>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
             </select>
+            <button>Update</button>
+          </form>
+          <form action={updateAcc} className={styles.form}>
+            <input type="hidden" name="id" value={acc.id} />
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder={acc?.username || 'Имя'}
+            />
+            <label>Surname</label>
+            <input
+              type="text"
+              name="surname"
+              placeholder={acc?.surname || 'Фамилия'}
+            />
+            <label>Phone</label>
+            <input
+              type="text"
+              name="phone"
+              placeholder={acc?.phone || '+7-(777)-777-77-77'}
+            />
             <button>Update</button>
           </form>
         </div>
