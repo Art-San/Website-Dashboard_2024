@@ -18,7 +18,7 @@ const RegisterForm = () => {
 
   return (
     <form className={styles.form} action={formAction}>
-      <input type="email" placeholder="email" name="email" required />
+      <input type="text" placeholder="Name" name="username" required />
       <input type="password" placeholder="password" name="password" />
       <input
         type="password"

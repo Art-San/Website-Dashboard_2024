@@ -1,39 +1,38 @@
 // 1:29ж42
 
 // import { updateUser } from '@/lib/actions'
-import { fetchUserAcc } from '@/lib/data'
+import { fetchUserAds, fetchUser } from '@/lib/data'
 import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
-import { updateUser } from '@/lib/actions/actionsUsers'
+import { updateUser, updateUserAds } from '@/lib/actions/actionsUsers'
 
 const SingleUserPage = async ({ params }) => {
   const { id } = params
-  const user = await fetchUserAcc(id)
-
-  console.log('SingleUserPage user.address', user)
+  const user = await fetchUser(id)
+  const address = await fetchUserAds(user.id)
+  // console.log('SingleUserPage user', user.id)
+  console.log('SingleUserPage address', address)
 
   return (
     <>
       <div className={styles.container}>
         <div className={styles.infoContainer}>
           <div className={styles.imgContainer}>
-            <Image src={user.img || '/noAvatar.png'} alt="" fill />
+            <Image src={user?.img || '/noAvatar.png'} alt="" fill />
           </div>
           {user?.username || 'No name'}
         </div>
         <div className={styles.formContainer}>
           <form action={updateUser} className={styles.form}>
-            <input type="hidden" name="id" value={user.id} />
+            <input type="hidden" name="id" value={user?.id} />
             <label>Username</label>
             <input
               type="text"
               name="username"
               placeholder={user?.username || 'Имя'}
             />
-            <label>phone</label>
-            <input type="text" name="addressPhone" placeholder={'77777777'} />
             <label>Email</label>
-            <input type="email" name="email" placeholder={user.email} />
+            <input type="email" name="email" placeholder={user?.email} />
             <label>Password</label>
             <input type="password" name="password" placeholder="******" />
             <label>Image</label>
@@ -50,20 +49,47 @@ const SingleUserPage = async ({ params }) => {
             </select>
             <button>Update</button>
           </form>
-          {/* <form className={styles.form}>
-            <input type="hidden" name="id" />
-            <label>Username</label>
-            <input type="text" name="username" placeholder={'Имя'} />
-            <label>Surname</label>
-            <input type="text" name="surname" placeholder={'Фамилия'} />
+          <form action={updateUserAds} className={styles.form}>
+            <input type="hidden" name="id" value={address.id} />
             <label>Phone</label>
             <input
               type="text"
               name="phone"
-              placeholder={'+7-(777)-777-77-77'}
+              placeholder={address?.phone || '+7-(777)-777-77-77'}
             />
+            <label>Country</label>
+            <input
+              type="text"
+              name="country"
+              placeholder={address?.country || 'Страна'}
+            />
+            <label>City</label>
+            <input
+              type="text"
+              name="city"
+              placeholder={address?.city || 'Город'}
+            />
+            <label>Street</label>
+            <input
+              type="text"
+              name="street"
+              placeholder={address?.street || 'Улица'}
+            />
+            <label>Number</label>
+            <input
+              type="text"
+              name="number"
+              placeholder={address?.number || 'Номер'}
+            />
+            <label>PostalCode</label>
+            <input
+              type="text"
+              name="postalCode"
+              placeholder={address?.postalCode || 'Индекс'}
+            />
+
             <button>Update</button>
-          </form> */}
+          </form>
         </div>
       </div>
 

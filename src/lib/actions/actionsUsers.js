@@ -5,28 +5,33 @@ import { connectToDB } from '../utils.js'
 import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcrypt'
 import { signIn } from '../auth'
-import { User } from '../models/user'
+import { Address, User } from '../models/user'
 
-// const updateAddress = async (formData) => {
-//   const newAccount = new Address({
-//     userId: id
-//   })
-//   console.log('createAccount newAccount', newAccount)
-//   await newAccount.save()
-// }
+export const createUserAds = async (userId) => {
+  try {
+    connectToDB()
+    const address = new Address({
+      userId
+    })
+
+    await address.save()
+  } catch (err) {
+    console.log(err)
+    throw new Error('Failed to delete user!')
+  }
+}
 
 export const register = async (prevState, formData) => {
-  const { email, password, passwordRepeat } = Object.fromEntries(formData)
+  const { username, password, passwordRepeat } = Object.fromEntries(formData)
 
   if (password !== passwordRepeat) {
     // throw new Error('Пароли не совпадают')
     return { error: 'Пароли не совпадают' }
   }
-
   try {
     connectToDB()
 
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ username })
 
     if (user) {
       return { error: 'Имя пользователя уже занято' }
@@ -36,13 +41,19 @@ export const register = async (prevState, formData) => {
     const hashedPassword = await bcrypt.hash(password, salt)
 
     const newUser = new User({
-      email,
+      username,
       password: hashedPassword
+      // address: {
+      //   phone: '+77777777777',
+      //   country: 'Country',
+      //   city: 'City',
+      //   street: 'Street',
+      //   number: '123',
+      //   postalCode: '212000'
+      // }
     })
 
-    console.log('actionUser register newUser', newUser._id)
-
-    // await createAccount(newUser._id)
+    await createUserAds(newUser.id)
     await newUser.save()
     console.log(
       'register: пользователь и учетная запись сохранены в базе данных'
@@ -56,18 +67,18 @@ export const register = async (prevState, formData) => {
 }
 
 export const login = async (prevState, formData) => {
-  const { email, password } = Object.fromEntries(formData)
+  const { username, password } = Object.fromEntries(formData)
 
-  console.log('login  email, password', email, password)
+  // console.log('login  email, password', username, password)
 
   try {
-    await signIn('credentials', { email, password })
+    await signIn('credentials', { username, password })
   } catch (err) {
-    console.log('actin err.message ', err)
+    console.log('actin err.message ', err.message)
     if (err.message === 'CredentialsSignin') {
       // Х-з ПОЧЕМУ НО в этот раз message вместо type
       // if (err.type === 'CredentialsSignin') {
-      return { error: 'Неправильное имя или пароль !!!' }
+      return { error: 'Неправильное имя или пароль, а может не АДМИН !!!' }
     }
     throw err
   }
@@ -87,34 +98,6 @@ export const deleteUser = async (formData) => {
 
   revalidatePath('/dashboard/users')
 }
-
-// export const updateAcc = async (formData) => {
-//   const { id, username, surname, phone } = Object.fromEntries(formData)
-
-//   try {
-//     connectToDB()
-
-//     const updateFields = {
-//       username,
-//       surname,
-//       phone
-//     }
-//     // console.log('updateAcc updateFields', updateFields, id)
-//     Object.keys(updateFields).forEach(
-//       (key) =>
-//         (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
-//     )
-
-//     await Account.findByIdAndUpdate(id, updateFields)
-//     console.log('saved to db')
-//   } catch (err) {
-//     console.log('actions updateUser', err)
-//     throw new Error('Не удалось обновить пользователя!')
-//   }
-
-//   revalidatePath('/dashboard/users')
-//   redirect('/dashboard/users')
-// }
 
 export const updateUser = async (formData) => {
   const { id, username, email, password, img, isAdmin, isActive } =
@@ -158,6 +141,83 @@ export const updateUser = async (formData) => {
   revalidatePath('/dashboard/users')
   redirect('/dashboard/users')
 }
+
+export const updateUserAds = async (formData) => {
+  const { id, phone, country, city, street, number, postalCode } =
+    Object.fromEntries(formData)
+
+  try {
+    connectToDB()
+
+    const updateFields = {
+      phone,
+      country,
+      city,
+      street,
+      number,
+      postalCode
+    }
+
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === '' || undefined) && delete updateFields[key] // удаляем ключ объекта если он пустой, и в базу улетают только те данные которые были введены в форму
+    )
+    // console.log('updateFields', updateFields)
+    await Address.findByIdAndUpdate(id, updateFields)
+    console.log('saved to db')
+  } catch (err) {
+    console.log('actions updateUser', err)
+    throw new Error('Не удалось обновить пользователя!')
+  }
+
+  revalidatePath('/dashboard/users')
+  redirect('/dashboard/users')
+}
+
+// export const updateUserAds = async (formData) => {
+//   console.log('formData', formData)
+//   const { id, phone, country, city, street, number, postalCode } =
+//     Object.fromEntries(formData)
+
+//   try {
+//     connectToDB()
+
+//     const updateFields = {
+//       id,
+//       phone,
+//       country,
+//       city,
+//       street,
+//       number,
+//       postalCode
+//     }
+//     const user = await User.findById(id)
+//     if (!user) {
+//       throw new Error('User not found')
+//     }
+
+//     // Обновление полей адреса внутри пользователя
+//     Object.entries(updateFields).forEach(([key, value]) => {
+//       // Проверка на пустую строку перед обновлением
+//       if (value !== '') {
+//         user.address[key] = value
+//       }
+//     })
+
+//     // Сохранение пользователя с обновленным адресом
+//     const updatedUser = await user.save()
+
+//     console.log('updateUserAds', updatedUser)
+
+//     console.log('saved to db')
+//   } catch (err) {
+//     console.log('actions updateUser', err)
+//     throw new Error('Не удалось обновить пользователя!')
+//   }
+
+//   revalidatePath('/dashboard/users')
+//   redirect('/dashboard/users')
+// }
 
 // export const addUser = async (formData) => {
 //   // 'use server'

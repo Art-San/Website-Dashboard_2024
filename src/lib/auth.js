@@ -7,9 +7,11 @@ import bcrypt from 'bcrypt'
 // import Credentials from 'next-auth/providers/credentials'
 
 const login = async (credentials) => {
+  console.log('credentials.username', credentials.username)
+  console.log('credentials.password', credentials.password)
   try {
     connectToDB()
-    const user = await User.findOne({ email: credentials.email })
+    const user = await User.findOne({ username: credentials.username })
 
     // if (!user) throw new Error('Wrong credentials!')
     if (!user || !user.isAdmin) throw new Error('не user или не admin!')

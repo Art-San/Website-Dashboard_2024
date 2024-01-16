@@ -1,4 +1,4 @@
-import { User } from './models/user'
+import { Address, User } from './models/user'
 import { connectToDB } from './utils.js'
 
 export const fetchUsers = async (q, page) => {
@@ -8,8 +8,8 @@ export const fetchUsers = async (q, page) => {
 
   try {
     connectToDB()
-    const count = await User.find({ email: { $regex: regex } }).count()
-    const users = await User.find({ email: { $regex: regex } })
+    const count = await User.find({ username: { $regex: regex } }).count()
+    const users = await User.find({ username: { $regex: regex } })
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1))
     return { users, count }
@@ -19,12 +19,25 @@ export const fetchUsers = async (q, page) => {
   }
 }
 
-export const fetchUserAcc = async (id) => {
+export const fetchUser = async (id) => {
   try {
     connectToDB()
     const user = await User.findById(id)
 
     return user
+  } catch (err) {
+    console.log(err)
+    throw new Error('Failed to fetch user!')
+  }
+}
+export const fetchUserAds = async (userId) => {
+  console.log('fetchUseAds id', userId)
+  try {
+    connectToDB()
+
+    const address = await Address.findOne({ userId })
+    // console.log(address)
+    return address
   } catch (err) {
     console.log(err)
     throw new Error('Failed to fetch user!')
