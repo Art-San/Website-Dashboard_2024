@@ -1,6 +1,9 @@
 import Link from 'next/link'
 
 import styles from './header.module.css'
+import { handleLogOut } from '@/lib/actions/actionsUsers'
+import { auth } from '@/lib/auth'
+import AvatarUser from '../avatarUser/AvatarUser'
 // import { auth } from '@/lib/auth'
 // import UserAvatar from './userAvatar/UserAvatar'
 const links = [
@@ -34,7 +37,7 @@ const links = [
 ]
 
 const Header = async () => {
-  // const session = await auth()
+  const session = await auth()
   // console.log('Header session', session)
 
   return (
@@ -45,6 +48,7 @@ const Header = async () => {
         </Link>
       </div>
       <div className={styles.buttons}>
+        {session && <AvatarUser session={session} />}
         {links.map((item) => (
           <Link href={item.path} key={item.title}>
             <button className="bg-[#008080] py-[5px] px-2.5 text-text border-none cursor-pointer">
@@ -52,6 +56,11 @@ const Header = async () => {
             </button>
           </Link>
         ))}
+        {session && (
+          <form action={handleLogOut}>
+            <button className={styles.logout}>Logout</button>
+          </form>
+        )}
       </div>
     </div>
   )

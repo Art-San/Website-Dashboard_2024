@@ -5,6 +5,7 @@ import { authConfig } from './auth.config'
 import { connectToDB } from './utils'
 import { User } from './models/user'
 import bcrypt from 'bcrypt'
+import { createUserAds } from './actions/actionsUsers'
 // import Credentials from 'next-auth/providers/credentials'
 
 const login = async (credentials) => {
@@ -71,7 +72,7 @@ export const {
               img: profile.avatar_url,
               cameFrom: account.provider
             })
-
+            await createUserAds(newUser.id, newUser)
             await newUser.save()
           }
         } catch (err) {

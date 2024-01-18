@@ -16,12 +16,15 @@ export const authConfig = {
       return token
     },
     async session({ session, token }) {
+      // console.log('auth.config  session token', token)
+      // console.log('auth.config  session session', session)
       if (token) {
         session.user.id = token.id
         session.user.isAdmin = token.isAdmin
         session.user.username = token.username
         session.user.img = token.img
       }
+      // console.log('auth.config  session session', session)
       return session
     },
     authorized({ auth, request }) {

@@ -9,27 +9,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.pexels.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.blast.hk'
-      },
-      {
-        protocol: 'https',
         hostname: 'avatarzo.ru'
       },
       {
         protocol: 'https',
-        hostname: 'illustrators.ru'
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.freelance.ru'
-      },
-      {
-        protocol: 'https',
-        hostname: 'trashbox.ru'
+        hostname: 'avatars.githubusercontent.com'
       },
       {
         protocol: 'https',
@@ -48,3 +32,4 @@ module.exports = nextConfig
 // (https://trashbox.ru
 // https://spb-apple.ru/image/cache/catalog/Add/iPhone%2014/14blue-350x450.jpg
 // https://avatarzo.ru
+// https://avatars.githubusercontent.com/u/103478300?v=4

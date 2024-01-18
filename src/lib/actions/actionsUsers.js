@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { connectToDB } from '../utils.js'
 import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcrypt'
-import { signIn } from '../auth'
+import { signIn, signOut } from '../auth'
 import { Address, User } from '../models/user'
 
 export const createUserAds = async (userId, newUser) => {
@@ -170,6 +170,12 @@ export const updateUserAds = async (formData) => {
 export const handleGithubLogin = async () => {
   'use server'
   await signIn('github')
+}
+
+export const handleLogOut = async () => {
+  'use server'
+  await signOut({ redirectTo: '/' })
+  // await signOut() // так тоже можно
 }
 
 // export const updateUserAds = async (formData) => {
