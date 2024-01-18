@@ -44,14 +44,6 @@ export const register = async (prevState, formData) => {
     const newUser = new User({
       username,
       password: hashedPassword
-      // address: {
-      //   phone: '+77777777777',
-      //   country: 'Country',
-      //   city: 'City',
-      //   street: 'Street',
-      //   number: '123',
-      //   postalCode: '212000'
-      // }
     })
 
     await createUserAds(newUser.id, newUser)
@@ -173,6 +165,11 @@ export const updateUserAds = async (formData) => {
 
   revalidatePath('/dashboard/users')
   // redirect('/dashboard/users')
+}
+
+export const handleGithubLogin = async () => {
+  'use server'
+  await signIn('github')
 }
 
 // export const updateUserAds = async (formData) => {
