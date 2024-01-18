@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import GitHub from 'next-auth/providers/github'
+import Goggle from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { authConfig } from './auth.config'
 import { connectToDB } from './utils'
@@ -43,6 +44,10 @@ export const {
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET
     }),
+    Goggle({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_SECRET
+    }),
     CredentialsProvider({
       async authorize(credentials) {
         try {
@@ -58,9 +63,9 @@ export const {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      // console.log('user', user) // undefined
-      // console.log('account', account) // данные с гит
-      // console.log('profile', profile) // данные с гит профиля
+      console.log('user', user) // undefined
+      console.log('account', account) // данные с гит
+      console.log('profile', profile) // данные с гит профиля
       if (account.provider === 'github') {
         connectToDB()
         try {

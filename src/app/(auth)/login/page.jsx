@@ -1,4 +1,7 @@
-import { handleGithubLogin } from '@/lib/actions/actionsUsers'
+import {
+  handleGithubLogin,
+  handleGoogleLogin
+} from '@/lib/actions/actionsUsers'
 import styles from './login.module.css'
 import LoginForm from '@/components/loginForm/LoginForm'
 
@@ -16,6 +19,9 @@ const LoginPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        <form action={handleGoogleLogin}>
+          <button className={styles.google}>Login with Google</button>
+        </form>
         <form action={handleGithubLogin}>
           <button className={styles.github}>Login with Github</button>
         </form>

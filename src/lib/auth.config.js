@@ -29,9 +29,12 @@ export const authConfig = {
     },
     authorized({ auth, request }) {
       const user = auth?.user
-      console.log('authConfig user ', user)
+      // console.log('authConfig user ', user)
       // console.log('auth.config authorized user', user)
-      // console.log('auth.config authorized request?.nextUrl', request?.nextUrl)
+      // console.log(
+      //   'auth.config authorized request?.nextUrl.pathname',
+      //   request?.nextUrl.pathname
+      // )
       const isOnDashboard = request.nextUrl?.pathname.startsWith('/dashboard')
       const isOnBlogPage = request.nextUrl?.pathname.startsWith('/blog')
       const isOnLoginPage = request.nextUrl?.pathname.startsWith('/login')

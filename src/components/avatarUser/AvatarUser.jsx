@@ -5,8 +5,8 @@ import styles from './avatarUser.module.css'
 const AvatarUser = async ({ session }) => {
   // const user = await auth()
   const { user } = session
-  console.log('AvatarUser user ', user)
-  console.log('AvatarUser session ', session)
+  // console.log('AvatarUser user ', user)
+  // console.log('AvatarUser session ', session)
   return (
     <div className={styles.user}>
       <Image
@@ -22,7 +22,7 @@ const AvatarUser = async ({ session }) => {
         {/* <span className={styles.userTitle}>
           {user?.isAdmin ? 'Admin' : 'User'}
         </span> */}
-        <span className={styles.username}>{'email'}</span>
+        <span className={styles.username}>{user?.email || 'No name'}</span>
         {/* <span className={styles.username}>{user?.email}</span> */}
       </div>
     </div>
