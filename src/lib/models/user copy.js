@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      default: '',
       // required: true,
       // unique: true,
       max: 50
@@ -69,8 +68,7 @@ const addressSchema = new mongoose.Schema({
   postalCode: {
     type: String,
     default: ''
-  },
-  user: userSchema
+  }
 })
 
 export const Address =

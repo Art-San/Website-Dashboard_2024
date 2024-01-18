@@ -7,11 +7,12 @@ import bcrypt from 'bcrypt'
 import { signIn } from '../auth'
 import { Address, User } from '../models/user'
 
-export const createUserAds = async (userId) => {
+export const createUserAds = async (userId, newUser) => {
   try {
     connectToDB()
     const address = new Address({
-      userId
+      userId,
+      user: newUser
     })
 
     await address.save()
@@ -53,7 +54,7 @@ export const register = async (prevState, formData) => {
       // }
     })
 
-    await createUserAds(newUser.id)
+    await createUserAds(newUser.id, newUser)
     await newUser.save()
     console.log(
       'register: пользователь и учетная запись сохранены в базе данных'
@@ -171,7 +172,7 @@ export const updateUserAds = async (formData) => {
   }
 
   revalidatePath('/dashboard/users')
-  redirect('/dashboard/users')
+  // redirect('/dashboard/users')
 }
 
 // export const updateUserAds = async (formData) => {
