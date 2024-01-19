@@ -47,7 +47,7 @@ const UsersPage = async ({ searchParams }) => {
                     height={40}
                     className={styles.userImage}
                   />
-                  {user?.username || 'No name'}
+                  {user?.name || 'No name'}
                 </div>
               </td>
               <td>{user?.email || 'Нет'}</td>

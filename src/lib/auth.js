@@ -10,12 +10,12 @@ import { createUserAds } from './actions/actionsUsers'
 // import Credentials from 'next-auth/providers/credentials'
 
 const login = async (credentials) => {
-  console.log('credentials.username', credentials.username)
+  console.log('credentials.name', credentials.name)
   console.log('credentials.password', credentials.password)
   try {
     connectToDB()
-    const user = await User.findOne({ username: credentials.username })
-
+    const user = await User.findOne({ name: credentials.name })
+    console.log('login user', user)
     // if (!user) throw new Error('Wrong credentials!')
     if (!user || !user.isAdmin) throw new Error('не user или не admin!')
 
@@ -69,12 +69,12 @@ export const {
       if (account.provider === 'github') {
         connectToDB()
         try {
-          const user = await User.findOne({ email: profile.email })
+          const user = await User.findOne({ name: profile.login })
           if (!user) {
             const newUser = new User({
-              username: profile.login,
+              name: profile.login,
               email: profile.email,
-              img: profile.avatar_url,
+              image: profile.avatar_url,
               cameFrom: account.provider
             })
             await createUserAds(newUser.id, newUser)

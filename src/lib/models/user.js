@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       unique: true,
       required: true,
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String
     },
-    img: {
+    image: {
       type: String,
       default: '/noAvatar.png'
     },

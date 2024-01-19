@@ -1,11 +1,12 @@
-import Link from 'next/link'
+// 'use client'
+// import { useSession } from 'next-auth/react' // client вариант
 
+import { auth } from '@/lib/auth' // серверный вариант
+import Link from 'next/link'
 import styles from './header.module.css'
 import { handleLogOut } from '@/lib/actions/actionsUsers'
-import { auth } from '@/lib/auth'
 import AvatarUser from '../avatarUser/AvatarUser'
-// import { auth } from '@/lib/auth'
-// import UserAvatar from './userAvatar/UserAvatar'
+
 const links = [
   {
     title: 'Homepage',
@@ -37,8 +38,10 @@ const links = [
 ]
 
 const Header = async () => {
-  const session = await auth()
-  // console.log('Header session', session)
+  const session = await auth() // серверный вариант
+  console.log('Header session', session)
+
+  // const session = useSession() // про этот client вариант рассказывает на 08:40 https://www.youtube.com/watch?v=fDesagJgw3w&t=206s
 
   return (
     <div className={styles.container}>

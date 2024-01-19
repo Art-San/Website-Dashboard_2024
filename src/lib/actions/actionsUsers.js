@@ -23,7 +23,7 @@ export const createUserAds = async (userId, newUser) => {
 }
 
 export const register = async (prevState, formData) => {
-  const { username, password, passwordRepeat } = Object.fromEntries(formData)
+  const { name, password, passwordRepeat } = Object.fromEntries(formData)
 
   if (password !== passwordRepeat) {
     // throw new Error('Пароли не совпадают')
@@ -32,7 +32,7 @@ export const register = async (prevState, formData) => {
   try {
     connectToDB()
 
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ name })
 
     if (user) {
       return { error: 'Имя пользователя уже занято' }
@@ -42,7 +42,7 @@ export const register = async (prevState, formData) => {
     const hashedPassword = await bcrypt.hash(password, salt)
 
     const newUser = new User({
-      username,
+      name,
       password: hashedPassword
     })
 
@@ -60,12 +60,12 @@ export const register = async (prevState, formData) => {
 }
 
 export const login = async (prevState, formData) => {
-  const { username, password } = Object.fromEntries(formData)
+  const { name, password } = Object.fromEntries(formData)
 
-  // console.log('login  email, password', username, password)
+  // console.log('login  email, password', name, password)
 
   try {
-    await signIn('credentials', { username, password })
+    await signIn('credentials', { name, password })
   } catch (err) {
     console.log('actin err.message ', err.message)
     if (err.message === 'CredentialsSignin') {
@@ -93,7 +93,7 @@ export const deleteUser = async (formData) => {
 }
 
 export const updateUser = async (formData) => {
-  const { id, username, email, password, img, isAdmin, isActive } =
+  const { id, name, email, password, image, isAdmin, isActive } =
     Object.fromEntries(formData)
 
   const noSpaces = password.trim()
@@ -112,9 +112,9 @@ export const updateUser = async (formData) => {
 
     const updateFields = {
       email,
-      username,
+      name,
       password: oneOf,
-      img,
+      image,
       isAdmin,
       isActive
     }
@@ -178,7 +178,8 @@ export const handleGoogleLogin = async () => {
 
 export const handleLogOut = async () => {
   'use server'
-  await signOut({ redirectTo: '/' })
+  await signOut({ redirectTo: '/about' })
+  // await signOut({ redirectTo: '/' })
   // await signOut() // так тоже можно
 }
 
@@ -230,7 +231,7 @@ export const handleLogOut = async () => {
 // export const addUser = async (formData) => {
 //   // 'use server'
 
-//   const { username, email, password, img, phone, address, isAdmin, isActive } =
+//   const { name, email, password, image, phone, address, isAdmin, isActive } =
 //     Object.fromEntries(formData)
 
 //   try {
@@ -240,10 +241,10 @@ export const handleLogOut = async () => {
 //     const hashedPassword = await bcrypt.hash(password, salt)
 
 //     const newUser = new User({
-//       username,
+//       name,
 //       email,
 //       password: hashedPassword,
-//       img,
+//       image,
 //       phone,
 //       address,
 //       isAdmin,
@@ -261,7 +262,7 @@ export const handleLogOut = async () => {
 // }
 
 // export const addProduct = async (formData) => {
-//   const { title, desc, img, price, stock, color, size } =
+//   const { title, desc, image, price, stock, color, size } =
 //     Object.fromEntries(formData)
 //   console.log('formData', formData)
 //   try {
@@ -270,7 +271,7 @@ export const handleLogOut = async () => {
 //     const newProduct = new Product({
 //       title,
 //       desc,
-//       img,
+//       image,
 //       price,
 //       stock,
 //       color,
@@ -290,7 +291,7 @@ export const handleLogOut = async () => {
 // }
 
 // export const updateProduct = async (formData) => {
-//   const { id, title, desc, img, price, stock, color, size } =
+//   const { id, title, desc, image, price, stock, color, size } =
 //     Object.fromEntries(formData)
 
 //   try {
@@ -299,7 +300,7 @@ export const handleLogOut = async () => {
 //     const updateFields = {
 //       title,
 //       desc,
-//       img,
+//       image,
 //       price,
 //       stock,
 //       color,

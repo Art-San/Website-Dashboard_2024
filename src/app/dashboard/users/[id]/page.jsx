@@ -11,7 +11,7 @@ const SingleUserPage = async ({ params }) => {
   const user = await fetchUser(id)
   const address = await fetchUserAds(user.id)
   // console.log('SingleUserPage user', user.id)
-  console.log('SingleUserPage address', address)
+  // console.log('SingleUserPage address', address)
 
   return (
     <>
@@ -20,17 +20,13 @@ const SingleUserPage = async ({ params }) => {
           <div className={styles.imgContainer}>
             <Image src={user?.img || '/noAvatar.png'} alt="" fill />
           </div>
-          {user?.username || 'No name'}
+          {user?.name || 'No name'}
         </div>
         <div className={styles.formContainer}>
           <form action={updateUser} className={styles.form}>
             <input type="hidden" name="id" value={user?.id} />
             <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder={user?.username || 'Имя'}
-            />
+            <input type="text" name="name" placeholder={user?.name || 'Имя'} />
             <label>Email</label>
             <input type="email" name="email" placeholder={user?.email} />
             <label>Password</label>
@@ -105,7 +101,7 @@ const SingleUserPage = async ({ params }) => {
           <form className={styles.form}>
             <input type="hidden" name="id" />
             <label>Username</label>
-            <input type="text" name="username" placeholder={'John Doe'} />
+            <input type="text" name="name" placeholder={'John Doe'} />
             <label>Email</label>
             <input type="email" name="email" placeholder={'JohnDoe@mail.com'} />
             <label>Password</label>

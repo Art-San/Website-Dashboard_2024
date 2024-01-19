@@ -12,7 +12,7 @@ const AvatarUser = async ({ session }) => {
       <Image
         className={styles.userImage}
         // src={'/noAvatar.png'}
-        src={user?.image || user?.img || '/noAvatar.png'}
+        src={user?.image || '/noAvatar.png'}
         alt=""
         width="50"
         height="50"
@@ -22,7 +22,9 @@ const AvatarUser = async ({ session }) => {
         {/* <span className={styles.userTitle}>
           {user?.isAdmin ? 'Admin' : 'User'}
         </span> */}
-        <span className={styles.username}>{user?.email || 'No name'}</span>
+        <span className={styles.username}>
+          {user?.name || user?.email || 'No name'}
+        </span>
         {/* <span className={styles.username}>{user?.email}</span> */}
       </div>
     </div>

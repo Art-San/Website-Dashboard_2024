@@ -10,19 +10,20 @@ export const authConfig = {
       if (user) {
         token.id = user.id
         token.isAdmin = user.isAdmin
-        token.username = user.username
-        token.img = user.img
+        token.name = user.name
+        token.image = user.image
       }
+      // console.log('auth.config  jwt return token', token)
       return token
     },
     async session({ session, token }) {
-      // console.log('auth.config  session token', token)
-      // console.log('auth.config  session session', session)
+      // console.log('auth.config  session token.id', token.id)
+      // console.log('auth.config session', session)
       if (token) {
         session.user.id = token.id
         session.user.isAdmin = token.isAdmin
-        session.user.username = token.username
-        session.user.img = token.img
+        session.user.name = token.name
+        session.user.image = token.image
       }
       // console.log('auth.config  session session', session)
       return session

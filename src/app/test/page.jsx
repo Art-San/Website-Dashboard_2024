@@ -1,5 +1,4 @@
-// 2:32ж11
-const Page = () => {
+const Page = async () => {
   const handleForm = async (formaData) => {
     'use server'
     console.log('formaData', formaData)

@@ -8,8 +8,8 @@ export const fetchUsers = async (q, page) => {
 
   try {
     connectToDB()
-    const count = await User.find({ username: { $regex: regex } }).count()
-    const users = await User.find({ username: { $regex: regex } })
+    const count = await User.find({ name: { $regex: regex } }).count()
+    const users = await User.find({ name: { $regex: regex } })
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1))
     return { users, count }
@@ -31,7 +31,7 @@ export const fetchUser = async (id) => {
   }
 }
 export const fetchUserAds = async (userId) => {
-  console.log('fetchUseAds id', userId)
+  // console.log('data fetchUseAds id', userId)
   try {
     connectToDB()
 
