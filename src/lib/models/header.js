@@ -7,7 +7,6 @@ const headerSchema = new mongoose.Schema({
   },
   page: {
     type: String,
-    unique: true,
     required: true
   },
   slug: {

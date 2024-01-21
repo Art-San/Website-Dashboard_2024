@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import styles from './headers.module.css'
@@ -7,6 +6,7 @@ import styles from './headers.module.css'
 import Pagination from '@/components/dashboard/pagination/Pagination'
 import Search from '@/components/dashboard/search/Search'
 import { fetchHeaders } from '@/lib/data/dataHeaders'
+import { deleteHeader } from '@/lib/actions/actionsHeaders'
 
 const HeadersPage = async ({ searchParams }) => {
   const q = searchParams?.q || ''
@@ -36,7 +36,7 @@ const HeadersPage = async ({ searchParams }) => {
                 <div className={styles.header}>{header.page}</div>
               </td>
               <td>{header.slug}</td>
-              <td>${header.text}</td>
+              <td>{header.text}</td>
               <td>
                 <div className={styles.buttons}>
                   <Link href={`/dashboard/headers/${header.id}`}>
@@ -44,8 +44,8 @@ const HeadersPage = async ({ searchParams }) => {
                       View
                     </button>
                   </Link>
-                  <form>
-                    {/* <form action={deleteProduct}> */}
+
+                  <form action={deleteHeader}>
                     <input type="hidden" name="id" value={header.id} />
                     <button className={`${styles.button} ${styles.delete}`}>
                       Delete

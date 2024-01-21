@@ -1,21 +1,23 @@
-// 1:19:00
+'use client'
 
 import { addHeader } from '@/lib/actions/actionsHeaders'
 import styles from './addHeaders.module.css'
+import { useFormState } from 'react-dom'
 
 const AddHeaderPage = () => {
+  const [state, formAction] = useFormState(addHeader, undefined)
   return (
     <>
       <div className={styles.container}>
-        <form action={addHeader} className={styles.form}>
+        <form action={formAction} className={styles.form}>
           <input type="hidden" name="userId" value={''} />
-          <select name="page" id="page">
+          <select name="page" id="page" required>
             <option disabled selected hidden value="">
               Выберете страницу
             </option>
-            <option value="/">Home Page</option>
-            <option value="/post">Post</option>
-            <option value="/about">About</option>
+            <option value="Home">Home Page</option>
+            <option value="Post">Post</option>
+            <option value="About">About</option>
           </select>
           <input type="text" placeholder="Slug" name="slug" required />
 
@@ -27,6 +29,7 @@ const AddHeaderPage = () => {
             placeholder="Введите текст заголовка"
           ></textarea>
           <button type="submit">Submit</button>
+          {state?.error}
         </form>
       </div>
       {/*1:25:00*/}
