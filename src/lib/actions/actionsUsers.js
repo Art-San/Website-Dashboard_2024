@@ -183,51 +183,6 @@ export const handleLogOut = async () => {
   // await signOut() // так тоже можно
 }
 
-// export const updateUserAds = async (formData) => {
-//   console.log('formData', formData)
-//   const { id, phone, country, city, street, number, postalCode } =
-//     Object.fromEntries(formData)
-
-//   try {
-//     connectToDB()
-
-//     const updateFields = {
-//       id,
-//       phone,
-//       country,
-//       city,
-//       street,
-//       number,
-//       postalCode
-//     }
-//     const user = await User.findById(id)
-//     if (!user) {
-//       throw new Error('User not found')
-//     }
-
-//     // Обновление полей адреса внутри пользователя
-//     Object.entries(updateFields).forEach(([key, value]) => {
-//       // Проверка на пустую строку перед обновлением
-//       if (value !== '') {
-//         user.address[key] = value
-//       }
-//     })
-
-//     // Сохранение пользователя с обновленным адресом
-//     const updatedUser = await user.save()
-
-//     console.log('updateUserAds', updatedUser)
-
-//     console.log('saved to db')
-//   } catch (err) {
-//     console.log('actions updateUser', err)
-//     throw new Error('Не удалось обновить пользователя!')
-//   }
-
-//   revalidatePath('/dashboard/users')
-//   redirect('/dashboard/users')
-// }
-
 // export const addUser = async (formData) => {
 //   // 'use server'
 

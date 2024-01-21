@@ -1,5 +1,5 @@
-import { Address, User } from './models/user'
-import { connectToDB } from './utils.js'
+import { Address, User } from '../models/user'
+import { connectToDB } from '../utils.js'
 
 export const fetchUsers = async (q, page) => {
   const regex = new RegExp(q, 'i') // не чувствительно к регистру

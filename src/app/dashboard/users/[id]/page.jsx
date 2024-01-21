@@ -1,7 +1,7 @@
 // 1:29ж42
 
 // import { updateUser } from '@/lib/actions'
-import { fetchUserAds, fetchUser } from '@/lib/data'
+import { fetchUserAds, fetchUser } from '@/lib/data/data'
 import styles from '@/components/dashboard/users/singleUser/singleUser.module.css'
 import Image from 'next/image'
 import { updateUser, updateUserAds } from '@/lib/actions/actionsUsers'

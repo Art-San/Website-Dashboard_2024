@@ -1,6 +1,6 @@
 // import { deleteUser } from '@/app/lib/actions'
 import { deleteUser } from '@/lib/actions/actionsUsers'
-import { fetchUsers } from '@/lib/data'
+import { fetchUsers } from '@/lib/data/data'
 import Pagination from '@/components/dashboard/pagination/Pagination'
 import Search from '@/components/dashboard/search/Search'
 

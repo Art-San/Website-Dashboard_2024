@@ -1,67 +1,52 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import styles from './products.module.css'
+import styles from './headers.module.css'
 
 // import { deleteProduct } from '@/app/lib/actions'
 import Pagination from '@/components/dashboard/pagination/Pagination'
 import Search from '@/components/dashboard/search/Search'
-import { fetchProducts } from '@/lib/data/dataProduct'
+import { fetchHeaders } from '@/lib/data/dataHeaders'
 
-const ProductsPage = async ({ searchParams }) => {
-  // {/*2:25:00*/}
+const HeadersPage = async ({ searchParams }) => {
   const q = searchParams?.q || ''
   const page = searchParams?.page || 1
-  const { count, products } = await fetchProducts(q, page)
+  const { count, headers } = await fetchHeaders(q, page)
 
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <Search placeholder="Search for a product..." />
-        <Link href="/dashboard/products/add">
+        <Search placeholder="Search for a header..." />
+        <Link href="/dashboard/headers/add">
           <button className={styles.addButton}>Add New</button>
         </Link>
       </div>
       <table className={styles.table}>
         <thead>
           <tr>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Price</td>
-            <td>Created At</td>
-            <td>Stock</td>
-            <td>Action</td>
+            <td>Page</td>
+            <td>Slug</td>
+            <td>Header</td>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
+          {headers.map((header) => (
+            <tr key={header.id}>
               <td>
-                <div className={styles.product}>
-                  <Image
-                    src={product.img || '/noProduct.jpg'}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className={styles.productImage}
-                  />
-                  {product.title}
-                </div>
+                <div className={styles.header}>{header.page}</div>
               </td>
-              <td>{product.desc}</td>
-              <td>${product.price}</td>
-              <td>{product.createdAt?.toString().slice(4, 16)}</td>
-              <td>{product.stock}</td>
+              <td>{header.slug}</td>
+              <td>${header.text}</td>
               <td>
                 <div className={styles.buttons}>
-                  <Link href={`/dashboard/products/${product.id}`}>
+                  <Link href={`/dashboard/headers/${header.id}`}>
                     <button className={`${styles.button} ${styles.view}`}>
                       View
                     </button>
                   </Link>
                   <form>
                     {/* <form action={deleteProduct}> */}
-                    <input type="hidden" name="id" value={product.id} />
+                    <input type="hidden" name="id" value={header.id} />
                     <button className={`${styles.button} ${styles.delete}`}>
                       Delete
                     </button>
@@ -78,8 +63,8 @@ const ProductsPage = async ({ searchParams }) => {
   // return (
   //   <div className={styles.container}>
   //     <div className={styles.top}>
-  //       <Search placeholder="Search for a product..." />
-  //       <Link href="/dashboard/products/add">
+  //       <Search placeholder="Search for a header..." />
+  //       <Link href="/dashboard/headers/add">
   //         <button className={styles.addButton}>Add New</button>
   //       </Link>
   //     </div>
@@ -97,13 +82,13 @@ const ProductsPage = async ({ searchParams }) => {
   //       <tbody>
   //         <tr>
   //           <td>
-  //             <div className={styles.product}>
+  //             <div className={styles.header}>
   //               <Image
   //                 src={'/noProduct.jpg'}
   //                 alt=""
   //                 width={40}
   //                 height={40}
-  //                 className={styles.productImage}
+  //                 className={styles.headerImage}
   //               />
   //               Iphone
   //             </div>
@@ -114,7 +99,7 @@ const ProductsPage = async ({ searchParams }) => {
   //           <td>{'72'}</td>
   //           <td>
   //             <div className={styles.buttons}>
-  //               <Link href={`/dashboard/products/test`}>
+  //               <Link href={`/dashboard/headers/test`}>
   //                 <button className={`${styles.button} ${styles.view}`}>
   //                   View
   //                 </button>
@@ -136,4 +121,4 @@ const ProductsPage = async ({ searchParams }) => {
   // )
 }
 
-export default ProductsPage
+export default HeadersPage
