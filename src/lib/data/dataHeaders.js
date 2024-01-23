@@ -20,6 +20,23 @@ export const fetchHeaders = async (q, page) => {
   }
 }
 
+export const fetchHeaderSlug = async (slug = 'def') => {
+  if (!slug) {
+    return 'текст из actions: Slug пришел пустой заголовка нет '
+  }
+  try {
+    connectToDB()
+    const header = await Header.findOne({ slug: slug })
+
+    return header.text
+  } catch (err) {
+    console.log('err err', err.message)
+    return null
+    // return 'текст из actions: Slug пришел пустой заголовка нет '
+    // throw new Error('Failed to fetch headers!')
+  }
+}
+
 export const fetchHeader = async (id) => {
   try {
     connectToDB()

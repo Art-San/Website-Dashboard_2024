@@ -178,7 +178,7 @@ export const handleGoogleLogin = async () => {
 
 export const handleLogOut = async () => {
   'use server'
-  await signOut({ redirectTo: '/about' })
+  await signOut({ redirectTo: '/' })
   // await signOut({ redirectTo: '/' })
   // await signOut() // так тоже можно
 }

@@ -12,7 +12,8 @@ import {
   MdPeople,
   MdOutlineSettings,
   MdHelpCenter,
-  MdLogout
+  MdLogout,
+  MdHome
 } from 'react-icons/md'
 import MenuLink from './menuLink/MenuLink'
 import { auth, signOut } from '@/lib/auth'
@@ -22,6 +23,11 @@ const menuItems = [
   {
     title: 'Pages',
     list: [
+      {
+        title: 'Homepage',
+        path: '/',
+        icon: <MdHome />
+      },
       {
         title: 'Dashboard',
         path: '/dashboard',
