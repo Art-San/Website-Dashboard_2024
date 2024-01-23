@@ -1,35 +1,4 @@
-import Link from 'next/link'
 import styles from './pages.module.css'
-
-const links = [
-  {
-    title: 'Homepage',
-    path: '/'
-  },
-
-  {
-    title: 'Dashboard',
-    path: '/dashboard'
-  },
-
-  {
-    title: 'Posts',
-    path: '/posts'
-  },
-
-  {
-    title: 'About',
-    path: '/about'
-  },
-  {
-    title: 'Register',
-    path: '/register'
-  },
-  {
-    title: 'Login',
-    path: '/login'
-  }
-]
 
 export default function Home() {
   return (
@@ -37,6 +6,7 @@ export default function Home() {
       {/* <div className={styles.container}> */}
       <div className=" flex flex-col gap-4 m-5 items-center">
         <h1>Home Page</h1>
+
         <ul>
           <li>Первый пункт</li>
           <li>Второй пункт</li>

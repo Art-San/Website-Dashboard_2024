@@ -4,20 +4,29 @@ import { revalidatePath } from 'next/cache'
 import { Header } from '../models/header'
 import { connectToDB } from '../utils'
 
+function formatSlug(slug) {
+  return slug.trim().toLowerCase().replace(/\s+/g, '-')
+}
+
 export const addHeader = async (prevState, formData) => {
+  console.log('formData', Object.entries(formData))
   const { userId, page, slug, text } = Object.fromEntries(formData)
 
   try {
     connectToDB()
 
+    const header = await Header.findOne({ slug })
+
+    if (header) {
+      return { error: 'заголовок с таким slag уже есть' }
+    }
+
     const newHeader = new Header({
       userId,
       page,
-      slug,
+      slug: formatSlug(slug),
       text
     })
-
-    console.log('newHeader', newHeader)
 
     await newHeader.save()
   } catch (err) {
@@ -40,37 +49,39 @@ export const addHeader = async (prevState, formData) => {
   redirect('/dashboard/headers')
 }
 
-// export const updateProduct = async (formData) => {
-//   const { id, title, desc, image, price, stock, color, size } =
-//     Object.fromEntries(formData)
+export const updateHeader = async (prevState, formData) => {
+  const { id, page, slug, text } = Object.fromEntries(formData)
+  console.log('id, page, slug, text', id, page, slug, text)
 
-//   try {
-//     connectToDB()
+  try {
+    connectToDB()
 
-//     const updateFields = {
-//       title,
-//       desc,
-//       image,
-//       price,
-//       stock,
-//       color,
-//       size
-//     }
+    const header = await Header.findOne({ slug })
 
-//     Object.keys(updateFields).forEach(
-//       (key) =>
-//         (updateFields[key] === '' || undefined) && delete updateFields[key]
-//     )
+    if (header) {
+      return { error: 'slag занят' }
+    }
 
-//     await Product.findByIdAndUpdate(id, updateFields)
-//   } catch (err) {
-//     console.log(err)
-//     throw new Error('Failed to update product!')
-//   }
+    const updateFields = {
+      page,
+      slug: formatSlug(slug),
+      text
+    }
 
-//   revalidatePath('/dashboard/products')
-//   redirect('/dashboard/products')
-// }
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === '' || undefined) && delete updateFields[key]
+    )
+
+    await Header.findByIdAndUpdate(id, updateFields)
+  } catch (err) {
+    console.log(err)
+    throw new Error('Failed to update header!')
+  }
+
+  revalidatePath('/dashboard/headers')
+  redirect('/dashboard/headers')
+}
 
 export const deleteHeader = async (formData) => {
   const { id } = Object.fromEntries(formData)
@@ -80,8 +91,8 @@ export const deleteHeader = async (formData) => {
     await Header.findByIdAndDelete(id)
   } catch (err) {
     console.log(err)
-    throw new Error('Failed to delete product!')
+    throw new Error('Failed to delete header!')
   }
 
-  revalidatePath('/dashboard/products')
+  revalidatePath('/dashboard/headers')
 }

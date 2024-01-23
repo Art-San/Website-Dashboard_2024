@@ -1,38 +1,28 @@
 'use client'
 
+import { updateHeader } from '@/lib/actions/actionsHeaders'
 import styles from './singleHeaderForm.module.css'
-// import { useFormState } from 'react-dom'
+import { useFormState } from 'react-dom'
 
-const SingleHeaderForm = (header) => {
-  // const [state, formAction] = useFormState(login, undefined)
+const SingleHeaderForm = ({ id, page, slug, text }) => {
+  console.log('SingleHeaderForm id, page, slug, text', id, page, slug, text)
+  const [state, formAction] = useFormState(updateHeader, undefined)
 
   return (
-    <form className={styles.form}>
-      {/* <form action={updateHeader} className={styles.form}> */}
-      <input type="hidden" name="id" value={header.id} />
-
+    <form action={formAction} className={styles.form}>
+      <input type="hidden" name="id" value={id} />
       <label>Page</label>
-      <select name="page" id="page" required>
-        <option disabled selected hidden value="">
-          {header.page}
-        </option>
+      <select name="page" id="page" defaultValue={page}>
         <option value="Home">Home Page</option>
         <option value="Post">Post</option>
         <option value="About">About</option>
       </select>
-
       <label>Slug</label>
-      <input type="text" name="slug" placeholder={header.slug} required />
-
+      <input type="text" name="slug" placeholder={slug} />
       <label>Текст заголовка</label>
-      <textarea
-        name="text"
-        id="text"
-        rows={5}
-        placeholder={header.text}
-        required
-      ></textarea>
+      <textarea name="text" id="text" rows={5} placeholder={text}></textarea>
       <button>Update</button>
+      {state?.error}
     </form>
   )
 }
